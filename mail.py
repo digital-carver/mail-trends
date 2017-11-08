@@ -7,6 +7,7 @@ import messageinfo
 import stringscanner
 
 MAILBOX_GMAIL_ALL_MAIL = "[Gmail]/All Mail"
+MAILBOX_GMAIL_INBOX = "Inbox"
 MAILBOX_GMAIL_PREFIX = "[Gmail]"
 
 class Mail(object):
@@ -59,6 +60,9 @@ class Mail(object):
   def SelectAllMail(self):
     self.SelectMailbox(MAILBOX_GMAIL_ALL_MAIL)
 
+  def SelectInbox(self):
+    self.SelectMailbox(MAILBOX_GMAIL_INBOX)
+
   def SelectMailbox(self, mailbox):
     logging.info("Selecting mailbox '%s'", mailbox)
     r, data = self.__mail.select(mailbox)
@@ -66,14 +70,24 @@ class Mail(object):
     
     self.__current_mailbox = mailbox
 
-  def GetMessageIds(self):
-    message_infos = self.__UidFetch("ALL", "(INTERNALDATE RFC822.SIZE)")
+  def GetMessageIds(self, unread_only=False):
+    if unread_only:
+        search_criterion = "UNSEEN"
+    else:
+        search_criterion = "ALL"
+
+    message_infos = self.__UidFetch(search_criterion, "(INTERNALDATE RFC822.SIZE)")
     
     return [m.GetMessageId() for m in message_infos]
 
-  def GetMessageInfos(self):
+  def GetMessageInfos(self, unread_only=False):
+    if unread_only:
+        search_criterion = "UNSEEN"
+    else:
+        search_criterion = "ALL"
+
     return self.__UidFetch(
-        "ALL", 
+        search_criterion, 
         "(UID FLAGS INTERNALDATE RFC822.SIZE RFC822.HEADER)",
         self.__max_messages)
 

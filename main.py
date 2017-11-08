@@ -21,7 +21,9 @@ def GetOptsMap():
       "username=", "password=", "use_ssl", "server=", 
 
       # Other params
-      "filter_out=", "me=",
+      # without allmail, only data about messages labeled 'Inbox' are used
+      # allmail and unread_only are independent orthogonal options
+      "filter_out=", "me=", "allmail", "unread_only",
       
       # Development options
       "record", "replay", 
@@ -51,9 +53,15 @@ def GetMessageInfos(opts):
       "random_subset" in opts)
   
   # First, get all message infos
-  m.SelectAllMail()
+  if "allmail" in opts:
+    m.SelectAllMail()
+  else:
+    m.SelectInbox()
   
-  message_infos = m.GetMessageInfos()
+  if "unread_only" in opts:
+    message_infos = m.GetMessageInfos(unread_only=True)
+  else:
+    message_infos = m.GetMessageInfos()
   
   # Then for each mailbox, see which messages are in it, and attach that to 
   # the mail info
