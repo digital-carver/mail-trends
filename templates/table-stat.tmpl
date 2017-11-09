@@ -4,6 +4,7 @@
       <option value="top10">Top 10</option>
       <option value="top20">Top 20</option>
       <option value="top40">Top 40</option>
+      <option value="top100">Top 100</option>
     </select>
     
     $title
@@ -23,7 +24,9 @@
     <tbody>
       #for $i in range(0, len($objs))
 
-        #if $i >= 20
+        #if $i >= 40
+          #set $top_class = "top100"
+        #else if $i >= 20
           #set $top_class = "top40"
         #else if $i >= 10
           #set $top_class = "top20"

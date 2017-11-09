@@ -29,6 +29,7 @@ function toggleTableStatTop(selectNode) {
   _(tableNode).removeClass("top10");
   _(tableNode).removeClass("top20");
   _(tableNode).removeClass("top40");
+  _(tableNode).removeClass("top100");
   _(tableNode).addClass(top);
 }
 

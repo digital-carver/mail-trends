@@ -70,7 +70,10 @@ h3 {
 
 table.top10 tr.top20,
 table.top10 tr.top40,
-table.top20 tr.top40 {
+table.top10 tr.top100,
+table.top20 tr.top40,
+table.top20 tr.top100,
+table.top40 tr.top100 {
   display: none;
 }
 
